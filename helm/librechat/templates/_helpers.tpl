@@ -76,3 +76,15 @@ Define apiVersion of HorizontalPodAutoscaler
 {{- print "autoscaling/v2beta1" -}}
 {{- end -}}
 {{- end -}}
+
+{{/* This helper will change when customers deploy a new image */}}
+{{- define "librechat_image" -}}
+  {{- $repository := .Values.image.repository -}}
+  {{- $tag := .Values.image.tag | default .Chart.AppVersion -}}
+  {{- $digest := .Values.image.digest -}}
+  {{- if $digest }}
+    {{- printf "%s@%s" $repository $digest -}}
+  {{- else }}
+    {{- printf "%s:%s" $repository $tag -}}
+  {{- end }}
+{{- end }}
